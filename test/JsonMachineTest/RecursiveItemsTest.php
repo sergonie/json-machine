@@ -73,13 +73,14 @@ class RecursiveItemsTest extends \PHPUnit_Framework_TestCase
 
     public function testAdvanceToKeyWorksOnScalars()
     {
-        $generator = function () {yield from ['one' => 1, 'two' => 2, 'three' => 3]; };
+        $generator = function () {yield from ['one' => 1, 'two' => 2, 'three' => 3, 'four' => null]; };
         $iterator = new RecursiveItems(toIteratorAggregate($generator()));
 
         $this->assertSame(1, $iterator->advanceToKey('one'));
         $this->assertSame(1, $iterator->advanceToKey('one'));
         $this->assertSame(2, $iterator->advanceToKey('two'));
         $this->assertSame(3, $iterator->advanceToKey('three'));
+        $this->assertSame(null, $iterator->advanceToKey('four'));
     }
 
     public function testArrayAccessIsASyntaxSugarToAdvanceToKey()
